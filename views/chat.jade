@@ -1,0 +1,71 @@
+extends header
+
+block content
+
+    style(type='text/css').
+
+        #div_container{
+            margin-left:25px;
+        }
+
+        #div_chat{
+            width: 500px;
+            height:300px;
+            border:1px solid;
+        }
+
+        #nick{
+            width:200px;
+            margin-bottom:5px;
+        }
+
+        #message{
+            width:500px;
+        }
+
+    script(type='text/javascript').
+    
+        $(document).ready(function(){
+            
+            console.log('Jquery Started')
+
+            const socket = io()
+
+            $('#frm_msg').submit(function(e){
+
+                e.preventDefault()
+
+                var nick = '<strong>' + $('#nick').val() + '</strong>'
+
+                if(nick.length > 0){
+
+                    var msg = $('#message').val()
+
+                    var body = `[${nick}] ${msg}`
+
+                    socket.emit('msg', body)
+
+                    $('#div_chat').append('<br>' + body)
+
+                    $('#message').val('')
+
+                }
+
+            })
+
+            socket.on('msg', function(msg){
+                
+                $('#div_chat').append('<br>' + msg)
+
+            })
+ 
+        })
+        
+    div(id="div_container")
+        h3 Chat (Teste Socket.IO)
+        div(id='div_chat')
+        br
+        form(id='frm_msg')
+            input(type='text' id='nick' class='form-control' placeholder='Informe um nick')
+            input(type='text' id='message' class='form-control' placeholder='Escreva uma mensagem')
+            input(type='submit' style='display:none')
