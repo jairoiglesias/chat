@@ -8,11 +8,11 @@ var app = require('../app');
 var debug = require('debug')('flyaway:server');
 var http = require('http');
 
+global.msgs = []
+
 /**
  * Get port from environment and store in Express.
  */
-
-
 
 var port = normalizePort(process.env.PORT || '3001');
 app.set('port', port);
@@ -32,6 +32,12 @@ io.on('connection', (socket) => {
     socket.on('msg', (msg) => {
 
       console.log(msg)
+      msgs.push(msg)
+
+      // Mantem as ultimas sem mensagens
+      if(msgs.length > 100){
+        msgs.splice(0, 1)
+      }
 
       // Envia mensagem para todos os clientes conectados
       socket.broadcast.emit('msg', msg)

@@ -4,4 +4,8 @@ module.exports = function(app){
         res.render('chat')
     })
 
+    app.get('/get_messages', (req, res) =>{
+        res.send(globa.msgs)
+    })
+
 }
