@@ -12,6 +12,7 @@ block content
             width: 500px;
             height:300px;
             border:1px solid;
+            overflow:auto;
         }
 
         #nick{
@@ -26,6 +27,11 @@ block content
     script(type='text/javascript').
     
         $(document).ready(function(){
+
+            setInterval(function() {
+                var elem = document.getElementById('div_chat');
+                elem.scrollTop = elem.scrollHeight;
+            }, 500);
             
             console.log('Jquery Started')
 
