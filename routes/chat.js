@@ -5,7 +5,7 @@ module.exports = function(app){
     })
 
     app.get('/get_messages', (req, res) =>{
-        res.send(globa.msgs)
+        res.send(global.msgs)
     })
 
 }

@@ -40,11 +40,10 @@ block content
             $('#frm_msg').submit(function(e){
 
                 e.preventDefault()
+                
+                if($('#nick').val().length > 0 && $('#message').val().length > 0){
 
-                var nick = '<strong>' + $('#nick').val() + '</strong>'
-
-                if(nick.length > 0){
-
+                    var nick = '<strong>' + $('#nick').val() + '</strong>'
                     var msg = $('#message').val()
 
                     var body = `[${nick}] ${msg}`
@@ -62,6 +61,22 @@ block content
             socket.on('msg', function(msg){
                 
                 $('#div_chat').append('<br>' + msg)
+
+            })
+
+            // Carrega as mensagens do Cache
+
+            var promise = $.ajax({
+                url: 'get_messages'
+            })
+
+            promise.then(function(result){
+
+                result.forEach(function(msgData, msgIndex){
+
+                    $('#div_chat').append(msgData + '<br />')
+
+                })
 
             })
  
